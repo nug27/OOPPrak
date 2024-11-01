@@ -22,18 +22,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Kalkulasi awal untuk moveVelocity, moveFriction, dan stopFriction
         moveVelocity = new Vector2(
-            maxSpeed.x / timeToFullSpeed.x,
-            maxSpeed.y / timeToFullSpeed.y
+            2* maxSpeed.x / timeToFullSpeed.x,
+            2* maxSpeed.y / timeToFullSpeed.y
         );
 
         moveFriction = new Vector2(
-            -maxSpeed.x / (timeToFullSpeed.x * timeToFullSpeed.x),
-            -maxSpeed.y / (timeToFullSpeed.y * timeToFullSpeed.y)
+            2* (-maxSpeed.x) / (timeToFullSpeed.x * timeToFullSpeed.x),
+            2* (-maxSpeed.y) / (timeToFullSpeed.y * timeToFullSpeed.y)
         );
 
         stopFriction = new Vector2(
-            -maxSpeed.x / (timeToStop.x * timeToStop.x),
-            -maxSpeed.y / (timeToStop.y * timeToStop.y)
+            2* (-maxSpeed.x) / (timeToStop.x * timeToStop.x),
+            2* (-maxSpeed.y) / (timeToStop.y * timeToStop.y)
         );
     }
 
