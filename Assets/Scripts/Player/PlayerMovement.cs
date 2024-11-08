@@ -14,26 +14,34 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveFriction;
     private Vector2 stopFriction;
     private Rigidbody2D rb;
+    private Camera mainCamera;
+    private Vector2 screenBounds;
 
     void Start()
     {
         // Mengambil informasi dari Rigidbody2D dan menyimpannya di rb
         rb = GetComponent<Rigidbody2D>();
 
+        // Mengambil informasi dari Camera utama
+        mainCamera = Camera.main;
+
+        // Menghitung screenBounds yang benar berdasarkan ukuran layar dan kamera
+        screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z * -1));
+        
         // Kalkulasi awal untuk moveVelocity, moveFriction, dan stopFriction
         moveVelocity = new Vector2(
-            2* maxSpeed.x / timeToFullSpeed.x,
-            2* maxSpeed.y / timeToFullSpeed.y
+            2 * maxSpeed.x / timeToFullSpeed.x,
+            2 * maxSpeed.y / timeToFullSpeed.y
         );
 
         moveFriction = new Vector2(
-            2* (-maxSpeed.x) / (timeToFullSpeed.x * timeToFullSpeed.x),
-            2* (-maxSpeed.y) / (timeToFullSpeed.y * timeToFullSpeed.y)
+            2 * (-maxSpeed.x) / (timeToFullSpeed.x * timeToFullSpeed.x),
+            2 * (-maxSpeed.y) / (timeToFullSpeed.y * timeToFullSpeed.y)
         );
 
         stopFriction = new Vector2(
-            2* (-maxSpeed.x) / (timeToStop.x * timeToStop.x),
-            2* (-maxSpeed.y) / (timeToStop.y * timeToStop.y)
+            2 * (-maxSpeed.x) / (timeToStop.x * timeToStop.x),
+            2 * (-maxSpeed.y) / (timeToStop.y * timeToStop.y)
         );
     }
 
@@ -53,8 +61,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // Apply friction to gradually slow down the player
-            // Use a higher friction factor to ensure faster stopping
-            float frictionFactor = timeToStop.x * 20; // Adjust this factor for more responsive stopping
+            float frictionFactor = timeToStop.x * 500;
             rb.velocity = Vector2.MoveTowards(rb.velocity, Vector2.zero, frictionFactor * Time.fixedDeltaTime);
 
             // Stop movement if velocity is very low to avoid sliding
@@ -69,22 +76,24 @@ public class PlayerMovement : MonoBehaviour
             Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x),
             Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)
         );
+
+        // Panggil fungsi moveBound untuk membatasi pergerakan
+        moveBound();
     }
 
-
-    Vector2 GetFriction()
+    public void moveBound()
     {
-        Vector2 friction = Vector2.zero;
+        // Membatasi posisi Player berdasarkan batas kamera
+        Vector3 pos = transform.position;
+        float boundaryOffsetx = 0.3f;
+        float boundaryOffsetatas = 0.8f;
 
-        // Menghitung friction berdasarkan arah
-        friction.x = (moveDirection.x != 0) ? moveFriction.x : stopFriction.x;
-        friction.y = (moveDirection.y != 0) ? moveFriction.y : stopFriction.y;
+        // Batasi pada sumbu X dan Y sesuai screenBounds
+        pos.x = Mathf.Clamp(pos.x, -screenBounds.x + boundaryOffsetx, screenBounds.x - boundaryOffsetx);
+        pos.y = Mathf.Clamp(pos.y, -screenBounds.y, screenBounds.y - boundaryOffsetatas);
 
-        return friction;
-    }
-
-    public void moveBound(){
-        //koosong
+        // Update posisi Player
+        transform.position = pos;
     }
 
     public bool IsMoving()
@@ -92,6 +101,4 @@ public class PlayerMovement : MonoBehaviour
         // Mengembalikan true jika Player bergerak, dan false jika tidak
         return rb.velocity != Vector2.zero;
     }
-
-    
 }
