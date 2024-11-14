@@ -14,12 +14,13 @@ public class Player : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Agar instance tetap ada di seluruh scene
         }
         else
         {
             Destroy(gameObject); // Hapus instance baru jika sudah ada
         }
+
+        DontDestroyOnLoad(this); // Agar instance tetap ada di seluruh scene
     }
 
     void Start()

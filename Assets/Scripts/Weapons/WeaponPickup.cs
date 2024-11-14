@@ -43,7 +43,7 @@ public class WeaponPickup : MonoBehaviour
             weapon.transform.SetParent(playerTransform); 
             weapon.transform.localPosition = new Vector3(0, 0, 0);
             TurnVisual(true, weapon);
-            gameObject.SetActive(false); 
+            // gameObject.SetActive(false); 
         }
     }
     // TurnVisual: Method untuk mengaktifkan atau menonaktifkan semua komponen yang relevan dalam objek weapon
