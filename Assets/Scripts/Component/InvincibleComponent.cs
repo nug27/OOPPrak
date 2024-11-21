@@ -1,33 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(HitboxComponent))]
 public class InvincibilityComponent : MonoBehaviour
 {
-    #region Datamembers
+    [SerializeField] private int blinkingCount = 7;
+    [SerializeField] private float blinkInterval = 0.1f;
+    [SerializeField] private Material blinkMaterial;
+    private SpriteRenderer spriteRenderer;
+    private Material originalMaterial;
+    public bool isInvincible = false;
 
-    #region Editor Settings
-
-    [SerializeField] private int blinkingCount = 7;  // Jumlah blinking
-    [SerializeField] private float blinkInterval = 0.1f;  // Interval antara blinking
-    [SerializeField] private Material blinkMaterial;  // Material yang digunakan saat blinking
-
-    #endregion
-
-    #region Private Fields
-
-    private SpriteRenderer spriteRenderer;  // Referensi ke SpriteRenderer
-    private Material originalMaterial;  // Material asli objek
-    public bool isInvincible = false;  // Status invincible
-
-    #endregion
-
-    #endregion
-
-    #region Methods
-
-    #region Unity Callbacks
-
-    // Start is called before the first frame update
     void Start()
     {
         // Mendapatkan SpriteRenderer yang digunakan untuk mengganti material
@@ -41,13 +25,13 @@ public class InvincibilityComponent : MonoBehaviour
         originalMaterial = spriteRenderer.material;
     }
 
-    #endregion
-
     // Coroutine untuk membuat efek blinking
     private IEnumerator BlinkingRoutine()
     {
+        isInvincible = true;  // Set status invincible ke true
         for (int i = 0; i < blinkingCount; i++)
         {
+            Debug.Log("Blinking " + i);
             spriteRenderer.material = blinkMaterial;  // Ganti material ke blinkMaterial
             yield return new WaitForSeconds(blinkInterval);
 
@@ -62,10 +46,8 @@ public class InvincibilityComponent : MonoBehaviour
     {
         if (!isInvincible)
         {
-            isInvincible = true;  // Set objek menjadi invincible
-            StartCoroutine(BlinkingRoutine());  // Mulai coroutine blinking
+            Debug.Log("Start Blinking Effect");
+            StartCoroutine(BlinkingRoutine());
         }
     }
-
-    #endregion
 }

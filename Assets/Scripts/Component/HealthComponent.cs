@@ -4,8 +4,8 @@ public class HealthComponent : MonoBehaviour
 {
     [Header("Max Health")]
     [SerializeField] private float maxHealth = 100f;  // Gunakan SerializeField untuk memberi akses pada Inspector
-  // Nilai maksimum health, dapat diatur lewat Unity Inspector
-    private float health;
+    [SerializeField] private float health;  // Gunakan SerializeField untuk menampilkan health pada Inspector
+    
 
     // Getter untuk health
     public float Health
@@ -27,15 +27,10 @@ public class HealthComponent : MonoBehaviour
 
         // Cek jika health kurang dari 0, maka hancurkan objek ini
         if (health <= 0)
-        {  // Pastikan health tidak kurang dari 0
+        {
+            health = 0;  // Pastikan health tidak kurang dari 0
             Destroy(gameObject);  // Menghancurkan objek ini
         }
-    }
-
-    // Setter untuk mengatur nilai health secara langsung
-    public void SetHealth(float value)
-    {
-        health = Mathf.Clamp(value, 0, maxHealth);  // Pastikan health berada dalam rentang 0 sampai maxHealth
     }
 
     // Getter untuk maxHealth

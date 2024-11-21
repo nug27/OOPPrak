@@ -13,9 +13,13 @@ GameObject:
   - component: {fileID: 1583943974170390593}
   - component: {fileID: 8244271008120508297}
   - component: {fileID: -6338547627017265863}
+  - component: {fileID: 6252581501476922665}
+  - component: {fileID: -5014482749169546402}
+  - component: {fileID: 5831718429602491622}
+  - component: {fileID: -5395620642675834181}
   m_Layer: 0
   m_Name: EnemyBoss
-  m_TagString: Untagged
+  m_TagString: EnemyBoss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +172,63 @@ MonoBehaviour:
   bulletPrefab: {fileID: 2912720952401944384, guid: 4bc848cbcd6bbd44fadd122cbea63ed1, type: 3}
   bulletSpawnPoint: {fileID: 3292913681953938238}
   shootIntervalInSeconds: 0.1
+--- !u!114 &6252581501476922665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139704182324418640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c849b8cf94391e2419dd1cdb757413a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  bullet: {fileID: 0}
+--- !u!114 &-5014482749169546402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139704182324418640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1102021ae3c88a4585d51a4151166bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 0
+--- !u!114 &5831718429602491622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139704182324418640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6752a1ea5ff618e41871f2ef544e350f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: -5014482749169546402}
+--- !u!114 &-5395620642675834181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139704182324418640}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e384cbf93bd2f8a49bec05cd000100c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blinkingCount: 7
+  blinkInterval: 0.1
+  blinkMaterial: {fileID: 0}
+  isInvincible: 0
 --- !u!1 &5657232023329409453
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +368,10 @@ PrefabInstance:
     - target: {fileID: 7923535762914308349, guid: 4bc848cbcd6bbd44fadd122cbea63ed1, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7923535762914308349, guid: 4bc848cbcd6bbd44fadd122cbea63ed1, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

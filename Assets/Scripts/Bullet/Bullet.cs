@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     public int damage = 10;
     private Rigidbody2D rb;
     private IObjectPool<Bullet> objectPool;
+
+    
     public void SetPool(IObjectPool<Bullet> pool)
     {
         objectPool = pool;
@@ -29,10 +31,13 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+
         // Return to pool upon collision with another object
         if (collision.CompareTag("Enemy") )
         {
-            objectPool.Release(this);
+            if(objectPool != null)
+                objectPool.Release(this);
+        
         }
     }
 

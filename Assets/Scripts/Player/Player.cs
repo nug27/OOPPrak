@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -14,13 +12,13 @@ public class Player : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(this); // Agar instance tetap ada di seluruh scene
         }
         else
         {
-            Destroy(gameObject); // Hapus instance baru jika sudah ada
+            UnityEditor.SceneVisibilityManager.instance.Show(gameObject, false);// Hapus instance baru jika sudah ada
+            return;
         }
-
-        DontDestroyOnLoad(this); // Agar instance tetap ada di seluruh scene
     }
 
     void Start()

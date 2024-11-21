@@ -13,6 +13,10 @@ GameObject:
   - component: {fileID: 8501645813951802472}
   - component: {fileID: 4654566865689929743}
   - component: {fileID: 7953264844169012851}
+  - component: {fileID: 4623706959517472161}
+  - component: {fileID: 4058626009359048997}
+  - component: {fileID: -3669736770479642116}
+  - component: {fileID: -8812101377075235329}
   m_Layer: 0
   m_Name: EnemyTargeting
   m_TagString: Untagged
@@ -161,4 +165,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d564a07dd8b2d449f0fff7275764ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 0
   speed: 1
+--- !u!114 &4623706959517472161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734486290543041846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c849b8cf94391e2419dd1cdb757413a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  bullet: {fileID: 0}
+--- !u!114 &4058626009359048997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734486290543041846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6752a1ea5ff618e41871f2ef544e350f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: -3669736770479642116}
+--- !u!114 &-3669736770479642116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734486290543041846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1102021ae3c88a4585d51a4151166bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 0
+--- !u!114 &-8812101377075235329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734486290543041846}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e384cbf93bd2f8a49bec05cd000100c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blinkingCount: 7
+  blinkInterval: 0.1
+  blinkMaterial: {fileID: 0}
+  isInvincible: 0

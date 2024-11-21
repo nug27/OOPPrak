@@ -4,6 +4,8 @@ public class Enemy : MonoBehaviour
 {
     [Header("Enemy Settings")]
     public int level;  // Level dari enemy
+    EnemySpawner enemySpawner;
+    CombatManager combatManager;
 
     // Start is called before the first frame update
     public void Start()
@@ -22,5 +24,16 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         // Logika dasar atau pengecekan level dapat ditambahkan di sini (jika perlu)
+    }
+    private void OnDestroy()
+    {
+
+        if (enemySpawner != null && combatManager != null)
+        {
+            enemySpawner.onDeath();
+            combatManager.onDeath();
+
+        }
+
     }
 }

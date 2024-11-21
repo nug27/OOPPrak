@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 9049594630354749157}
   - component: {fileID: 6873693431269492302}
   - component: {fileID: 2912720952401944384}
+  - component: {fileID: 4148505207828506267}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,8 +96,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.3, y: 0.5}
+  m_Offset: {x: -0.0028121471, y: 0.102811955}
+  m_Size: {x: 0.13690597, y: 0.21564125}
   m_Direction: 0
 --- !u!212 &9049594630354749157
 SpriteRenderer:
@@ -183,5 +184,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8cb90a0946fe745bae0283f393e969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 20
+  bulletSpeed: 10
+  damage: 100
+--- !u!114 &4148505207828506267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7923535762914308349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c849b8cf94391e2419dd1cdb757413a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   damage: 10
+  bullet: {fileID: 2912720952401944384}

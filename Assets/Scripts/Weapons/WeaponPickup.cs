@@ -37,7 +37,12 @@ public class WeaponPickup : MonoBehaviour
             Transform playerTransform = other.transform;  
             if (currentWeapon != null) 
             { 
-                currentWeapon.gameObject.SetActive(false);
+                if(weapon != currentWeapon)
+                {
+                    currentWeapon.gameObject.SetActive(false);
+                }else{
+                    return;
+                }
             } 
             currentWeapon = weapon; 
             weapon.transform.SetParent(playerTransform); 
