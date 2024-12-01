@@ -46,7 +46,7 @@ public class Weapon : MonoBehaviour
     }
 
 
-    private void Shoot()
+    public void Shoot()
     {
         Bullet bulletInstance = objectPool.Get();
         bulletInstance.transform.position = bulletSpawnPoint.position;

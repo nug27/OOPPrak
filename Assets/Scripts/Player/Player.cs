@@ -8,16 +8,14 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        // Membuat Singleton agar hanya ada satu instance Player di dalam game
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this); // Agar instance tetap ada di seluruh scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            UnityEditor.SceneVisibilityManager.instance.Show(gameObject, false);// Hapus instance baru jika sudah ada
-            return;
+            Destroy(gameObject);
         }
     }
 

@@ -1,68 +1,60 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
 
 public class CombatManager : MonoBehaviour
 {
     public EnemySpawner[] enemySpawners;
     public float timer = 0;
     [SerializeField] private float waveInterval = 5f;
-    public int waveNumber = 1;
+    public int waveNumber = 0;
     public int totalEnemies = 0;
+    public int point = 0;
 
+    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(ManageWaves());
+
+        waveNumber = 0;
+        foreach (EnemySpawner enemySpawner in enemySpawners)
+        {
+            enemySpawner.combatManager = this;
+        }
     }
 
-    private IEnumerator ManageWaves()
+    // Update is called once per frame
+    void Update()
     {
-        while (true)
+
+
+        if (totalEnemies <= 0)
         {
-            yield return new WaitForSeconds(waveInterval);
-            if (totalEnemies <= 0)
+            timer += Time.deltaTime;
+            if (timer >= waveInterval)
             {
-                ReleaseEnemies();
+                timer = 0;
+                StartNextWave();
             }
         }
     }
 
-    void Update()
+    private void StartNextWave()
     {
-        if (totalEnemies == 0)
-        {
-            timer += Time.deltaTime;
-        }
-
-        if (timer >= waveInterval && totalEnemies <= 0)
-        {
-            ReleaseEnemies();
-            timer = 0;
-        }
-
-        Debug.Log("Wave Interval: " + waveInterval);
-    }
-
-    private void ReleaseEnemies()
-    {
+        timer = 0;
         waveNumber++;
-        foreach (var spawner in enemySpawners)
+        // Debug.Log("Starting wave " + waveNumber);
+        foreach (EnemySpawner enemySpawner in enemySpawners)
         {
-            spawner.IncreaseSpawnCount(spawner.defaultSpawnCount * spawner.spawnCountMultiplier);
-            spawner.StartSpawning();
-        }
-    }
-
-    public void AddKill()
-    {
-        foreach (var spawner in enemySpawners)
-        {
-            spawner.AddKill();
+            Debug.Log("Starting enemy spawner");
+            enemySpawner.startSpawning();
         }
     }
 
     public void onDeath()
     {
         totalEnemies--;
-        Debug.Log("Total Enemies Remaining: " + totalEnemies);
+        point++;
+
     }
 }

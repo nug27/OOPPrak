@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -7691673280979443875}
   m_Layer: 0
   m_Name: EnemyHorizontal
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ac3faa72de81c4a897785d4bc7ffc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  Level: 2
+  enemySpawner: {fileID: 0}
+  combatManager: {fileID: 0}
   speed: 5
 --- !u!114 &-2134704277129840256
 MonoBehaviour:
@@ -193,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1102021ae3c88a4585d51a4151166bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 20
   health: 0
 --- !u!114 &-889075909221968859
 MonoBehaviour:
@@ -215,12 +217,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4494462290456771037}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e384cbf93bd2f8a49bec05cd000100c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blinkingCount: 7
   blinkInterval: 0.1
-  blinkMaterial: {fileID: 0}
+  blinkMaterial: {fileID: 2100000, guid: df6207c96d7051645980427c4d1b9cd4, type: 2}
   isInvincible: 0

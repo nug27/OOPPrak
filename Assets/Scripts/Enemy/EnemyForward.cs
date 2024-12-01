@@ -1,77 +1,34 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyForward : Enemy
 {
-    [Header("Movement Settings")]
-    public float speed = 5f;  // Kecepatan musuh
-    private bool movingDown = true;  // Menentukan apakah musuh bergerak ke bawah atau ke atas
-    private Vector2 screenBounds;  // Batas layar untuk deteksi
+    public float speed = 0.1f;
 
-    // Start is called before the first frame update
-    new void Start()
+    private void Start()
     {
-        base.Start();  // Memanggil Start() dari kelas Enemy
-
-        // Mendapatkan batas layar berdasarkan kamera
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-
-        // Tentukan posisi spawn acak untuk EnemyForward (selalu di atas layar)
-        transform.position = GetSpawnPosition();
+        // Posisikan musuh secara acak di bagian atas layar
+        RespawnAtTop();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Move();  // Panggil fungsi Move setiap frame
-        CheckBounds();  // Cek apakah musuh sudah melewati batas
-    }
+        // Gerakkan musuh ke bawah
+        transform.Translate(Vector2.down * speed * Time.deltaTime);
 
-    private void Move()
-    {
-        // Gerakkan musuh berdasarkan arah vertikal
-        if (movingDown)
+        // Jika musuh keluar dari layar di bagian bawah, respawn di bagian atas layar
+        if (transform.position.y < -Screen.height / 175f)
         {
-            transform.Translate(Vector2.down * speed * Time.deltaTime);
-        }
-        else
-        {
-            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            RespawnAtTop();
         }
     }
 
-    private void CheckBounds()
+    // Method untuk memposisikan musuh secara acak di bagian atas layar
+    private void RespawnAtTop()
     {
-        // Cek apakah musuh telah melewati batas layar, jika ya, respawn ke posisi baru
-        if (transform.position.y <= -screenBounds.y && movingDown)
-        {
-            Respawn();  // Panggil Respawn jika musuh telah melewati batas bawah layar
-        }
-    }
+        float randomX = Random.Range(-Screen.width / 200f, Screen.width / 200f);
+        transform.position = new Vector2(randomX, Screen.height / 175f);
 
-    // Fungsi untuk menentukan posisi spawn musuh di ujung atas layar
-    private Vector3 GetSpawnPosition()
-    {
-        // Tentukan posisi spawn untuk Y (selalu di ujung atas layar)
-        float yPosition = screenBounds.y;  // Spawn di atas layar
-
-        // Tentukan posisi spawn untuk X (acak antara kiri dan kanan layar)
-        float xPosition = Random.Range(-screenBounds.x, screenBounds.x);  // Posisi X acak di sepanjang layar
-
-        return new Vector3(xPosition, yPosition, 0f);  // Kembalikan posisi spawn
-    }
-
-    // Fungsi untuk melakukan respawn musuh pada posisi baru
-    private void Respawn()
-    {
-        // Tentukan posisi spawn yang baru
-        transform.position = GetSpawnPosition();
-    }
-
-    // Fungsi ini dipanggil ketika objek dihancurkan
-    private void OnDestroy()
-    {
-        // Setelah musuh dihancurkan, lakukan respawn pada posisi baru
-        Respawn();
+        // Pastikan rotasi tetap pada keadaan awal (menghadap ke bawah secara natural)
+        transform.rotation = Quaternion.identity;
     }
 }

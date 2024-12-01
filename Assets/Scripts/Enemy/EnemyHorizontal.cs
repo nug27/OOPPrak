@@ -9,9 +9,9 @@ public class EnemyHorizontal : Enemy
     private Vector2 screenBounds;  // Batas layar untuk deteksi
 
     // Start is called before the first frame update
-    new void Start()
+    private void Start()
     {
-        base.Start();  // Memanggil Start() dari kelas Enemy
+          // Memanggil Start() dari kelas Enemy
 
         // Mendapatkan batas layar berdasarkan kamera
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
@@ -77,9 +77,9 @@ public class EnemyHorizontal : Enemy
     }
 
     // Fungsi ini akan dipanggil ketika musuh dihancurkan
-    private void OnDestroy()
-    {
-        // Respawn musuh dengan posisi yang berbeda setelah dihancurkan
-        Respawn();
-    }
+    // private void OnDestroy()
+    // {
+    //     // Respawn musuh dengan posisi yang berbeda setelah dihancurkan
+    //     Respawn();
+    // }
 }

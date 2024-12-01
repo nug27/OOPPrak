@@ -1,0 +1,6 @@
+.header {
+    font-size: 40px;
+    color: rgb(201, 36, 36);
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+}

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Tulisan/BaseText.uss?fileID=7433441132597879392&amp;guid=f2adb86b79ce74a4493351697234e268&amp;type=3#BaseText" />
+    <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-center;">
+        <ui:Label tabindex="-1" text="Tembak Tembak" parse-escape-sequences="true" display-tooltip-when-elided="true" class="header" style="-unity-text-align: upper-center; color: rgb(255, 255, 255);" />
+        <ui:Label tabindex="-1" text="Base Stage" parse-escape-sequences="true" display-tooltip-when-elided="true" class="header" style="-unity-text-align: lower-center; white-space: nowrap; color: rgb(251, 251, 251); text-overflow: clip; width: 576px; height: 366px; font-size: 30px;" />
+    </ui:VisualElement>
+</ui:UXML>

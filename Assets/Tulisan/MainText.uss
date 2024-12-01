@@ -1,0 +1,15 @@
+.wave {
+    font-size: 20px;
+    -unity-font-style: bold;
+}
+
+.point {
+    font-size: 20px;
+    -unity-font-style: bold;
+}
+
+.health {
+}
+
+.enemy {
+}

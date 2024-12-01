@@ -2,29 +2,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Enemy Settings")]
-    public int level;  // Level dari enemy
-    EnemySpawner enemySpawner;
-    CombatManager combatManager;
+    public int Level;
 
-    // Start is called before the first frame update
-    public void Start()
-    {
-        // Menetapkan sprite ke Renderer
+    public EnemySpawner enemySpawner;
 
-        // Menonaktifkan pengaruh gravitasi dengan mengatur Gravity Scale menjadi 0
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            rb.gravityScale = 0;  // Tidak terpengaruh gravitasi
-        }
-    }
+    public CombatManager combatManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Logika dasar atau pengecekan level dapat ditambahkan di sini (jika perlu)
-    }
     private void OnDestroy()
     {
 
@@ -36,4 +19,5 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
 }

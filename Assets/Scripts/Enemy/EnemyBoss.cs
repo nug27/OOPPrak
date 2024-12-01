@@ -1,129 +1,93 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class EnemyBoss : Enemy
 {
-    [Header("Movement Settings")]
-    public float speed = 5f;  // Kecepatan musuh
-    private bool movingRight = true;  // Menentukan apakah musuh bergerak ke kanan atau kiri
-    private Vector2 screenBounds;  // Batas layar untuk deteksi
+    public float speed = 2f;
+    private Vector2 direction; // Arah gerakan awal
+    private Weapon weapon; // Senjata musuh
+    private float shootInterval = 2f; // Interval penembakan dalam detik
+    private float shootTimer;
+    
+    private Camera mainCamera;
+    private float xMax, yMax;
 
-    [Header("Shooting Settings")]
-    public Bullet bulletPrefab;  // Prefab peluru yang akan ditembakkan
-    public Transform bulletSpawnPoint;  // Titik spawn peluru
-    public float shootIntervalInSeconds = 2f;  // Interval waktu antar tembakan
-    private IObjectPool<Bullet> objectPool;  // Object Pool untuk peluru
-    private float shootTimer;  // Timer untuk menghitung interval tembakan
-
-    // Start is called before the first frame update
-    new void Start()
+    private void Start()
     {
-        base.Start();  // Memanggil Start() dari kelas Enemy
+        // Mendapatkan referensi kamera utama
+        mainCamera = Camera.main;
 
-        // Mendapatkan batas layar berdasarkan kamera
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        // Hitung batas layar berdasarkan kamera
+        Vector2 screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
+        xMax = screenBounds.x;
+        yMax = screenBounds.y;
 
-        // Inisialisasi object pool untuk peluru
-        objectPool = new ObjectPool<Bullet>(CreateBullet, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject, true, 10, 50);
+        // Tambahkan komponen Weapon ke EnemyBoss tanpa perlu WeaponPickup
+        weapon = gameObject.AddComponent<Weapon>();
 
-        // Tentukan posisi spawn acak untuk EnemyBoss
-        transform.position = GetSpawnPosition();
+        // Inisialisasi arah gerakan awal
+        InitializeDirection();
+
+        // Atur posisi EnemyBoss di bagian atas layar dengan spawn acak
+        Respawn();
+
+        // Inisialisasi timer
+        shootTimer = shootInterval;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Move();  // Panggil fungsi Move setiap frame
-        CheckBounds();  // Cek apakah musuh sudah melewati batas
+        // Gerakan horizontal bolak-balik
+        transform.Translate(direction * speed * Time.deltaTime);
 
-        // Tambahkan delta waktu ke timer
-        shootTimer += Time.deltaTime;
-
-        // Cek apakah sudah waktunya untuk menembak
-        if (shootTimer >= shootIntervalInSeconds)
+        // Periksa posisi dan ubah arah jika mencapai batas layar secara horizontal
+        if (transform.position.x < -xMax || transform.position.x > xMax)
         {
-            shootTimer = 0f;  // Reset timer
-            Shoot();  // Panggil fungsi tembak
+            // Balik arah gerakan dan reposisi sedikit dari batas untuk menghindari 'stuck'
+            direction = -direction;
+            transform.position = new Vector2(Mathf.Clamp(transform.position.x, -xMax, xMax), transform.position.y);
+        }
+
+        // Update timer untuk penembakan
+        shootTimer -= Time.deltaTime;
+        if (shootTimer <= 0f)
+        {
+            ShootDownwards(); // Tembak ke bawah
+            shootTimer = shootInterval; // Reset timer
         }
     }
 
-    private void Move()
+    private void ShootDownwards()
     {
-        // Gerakkan musuh berdasarkan arah
-        if (movingRight)
+        weapon.Shoot();
+        GameObject bullet = GameObject.FindWithTag("Bullet");
+        if (bullet != null)
         {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = new Vector2(0, -5f);
+            }
+        }
+    }
+
+    private void Respawn()
+    {
+        float yPos = Random.Range(-yMax, yMax);
+        if (Random.value > 0.5f)
+        {
+            transform.position = new Vector2(-xMax, yPos);
+            direction = Vector2.right;
         }
         else
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
+            transform.position = new Vector2(xMax, yPos);
+            direction = Vector2.left;
         }
     }
 
-    private void CheckBounds()
+    private void InitializeDirection()
     {
-        // Cek apakah musuh telah melewati batas layar, jika ya, lakukan respawn di ujung layar
-        if (transform.position.x >= screenBounds.x && movingRight)
-        {
-            // Respawn ke sisi kiri layar
-            transform.position = GetSpawnPosition();
-            movingRight = false; // Ubah arah ke kiri
-        }
-        else if (transform.position.x <= -screenBounds.x && !movingRight)
-        {
-            // Respawn ke sisi kanan layar
-            transform.position = GetSpawnPosition();
-            movingRight = true; // Ubah arah ke kanan
-        }
-    }
-
-    // Fungsi untuk menentukan posisi spawn musuh di ujung layar
-    private Vector3 GetSpawnPosition()
-    {
-        // Tentukan sisi spawn secara acak (kiri atau kanan)
-        bool spawnOnLeft = Random.value > 0.5f;
-
-        // Tentukan posisi spawn untuk X (ujung kiri atau kanan layar)
-        float xPosition = spawnOnLeft ? -screenBounds.x + 1 : screenBounds.x - 1;
-
-        // Tentukan posisi spawn untuk Y (antara atas dan bawah layar)
-        float yPosition = -1;
-
-        return new Vector3(xPosition, yPosition, 0f);  // Kembalikan posisi spawn
-    }
-
-    // Fungsi untuk menembakkan peluru
-    private void Shoot()
-    {
-        Bullet bulletInstance = objectPool.Get();  // Ambil peluru dari pool
-        bulletInstance.transform.position = bulletSpawnPoint.position;  // Tentukan posisi spawn peluru
-        bulletInstance.transform.rotation = bulletSpawnPoint.rotation;  // Tentukan rotasi spawn peluru
-        bulletInstance.Initialize();  // Inisialisasi pergerakan peluru
-    }
-
-    // Fungsi untuk membuat peluru baru
-    private Bullet CreateBullet()
-    {
-        Bullet bulletInstance = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        return bulletInstance;
-    }
-
-    // Fungsi ketika peluru diambil dari pool
-    private void OnGetFromPool(Bullet bullet)
-    {
-        bullet.gameObject.SetActive(true);
-    }
-
-    // Fungsi ketika peluru dikembalikan ke pool
-    private void OnReleaseToPool(Bullet bullet)
-    {
-        bullet.gameObject.SetActive(false);
-    }
-
-    // Fungsi ketika peluru dihancurkan (misalnya saat pool sedang mengecil)
-    private void OnDestroyPooledObject(Bullet bullet)
-    {
-        Destroy(bullet.gameObject);
+        // Randomly choose initial direction to start moving
+        direction = Random.value > 0.5f ? Vector2.right : Vector2.left;
     }
 }
